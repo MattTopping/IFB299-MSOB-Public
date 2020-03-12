@@ -1,0 +1,17 @@
+meter::-webkit-meter-optimum-value {
+    /* Setting the background gradient to the meter */
+    background: #ea9707; /* Old browsers */
+    background: -moz-linear-gradient(top, #ea9707 0%, #e09d00 48%, #ffbc49 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #ea9707 0%, #e09d00 48%, #ffbc49 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #ea9707 0%, #e09d00 48%, #ffbc49 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */        
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ea9707', endColorstr='#ffbc49', GradientType=0 ); /* IE6-9 */
+
+    /* Setting the inner shadow to the meter */
+    -webkit-box-shadow: inset 4px 3px 21px -4px rgba(0,0,0,0.4);
+    -moz-box-shadow: inset 4px 3px 21px -4px rgba(0,0,0,0.4);
+    box-shadow: inset 4px 3px 21px -4px rgba(0,0,0,0.4);
+}
+
+/* The password requirement list and match status */
+#pass-requirements{ font-size: 13px; padding: 0 0 0 10px; list-style-type: none; }
+#pass-match{ font-size: 13px; margin-top: 5%; }

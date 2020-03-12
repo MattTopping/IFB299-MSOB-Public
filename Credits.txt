@@ -1,0 +1,3 @@
+https://fontawesome.com/icons/car?style=solid (Used for 
+the logo in this project). The link to the licensing is 
+found here: https://fontawesome.com/license

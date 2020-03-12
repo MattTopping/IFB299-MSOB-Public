@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>carrentals | Home</title>
+    <link rel="icon" href="{% static 'img/icon.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Local CSS Files -->
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">	
+	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'jquery-ui/jquery-ui.min.css' %}" rel="stylesheet">
+    <!-- Local JavaScript Files -->    
+    <script src="{% static 'jquery-ui/external/jquery/jquery.js' %}"></script>
+    <script src="{% static 'jquery-ui/jquery-ui.min.js' %}"></script>  
+    <script src="{% static 'js/index-toggling.js' %}"></script>  
+    <!-- External Libraries -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>    
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">  
+</head>
+<body id="home-bg">
+    {% include 'carrental/navbar.html' %}
+
+    <div style="margin-bottom: 60px;">
+        <button class="search-toggle" onclick="iconToggle()">
+            Show / Hide Search 
+            <!-- Up and down arrows on search toggle (toggled through index-toggling.js) -->
+            <i class="fas fa-angle-up" id="up" style="visibility: hidden;"></i>
+            <i class="fas fa-angle-down" id="down" style="visibility: visible;"></i>
+        </button>            
+    
+        <!-- Main concatenated form -->
+        <form method = 'GET' action = '' id="search-form"> {% csrf_token %}     			                  
+            <div class="row">              
+            {{ forloop.counter1 }}
+            <!-- First part of the form (car details) -->
+            {% for field in form_car %}            
+                {% if forloop.counter|divisibleby:"2" %}
+                </div>
+                <div class="row">
+                {% endif %}                
+                <div class="col">
+                    {{ field.label_tag}} <br/>
+                    {% if field.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ field.errors.as_text }}
+                    </div>
+                    {% endif %}
+                    {{ field }}            
+                </div>             
+            {% endfor %}
+            </div>
+            <!-- Second part of the form (location searching) -->
+            <div class="row">
+                {% for field in form_loc %}
+                <div class="col">
+                    {{ field.label_tag}} <br/>
+                    {% if field.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ field.errors.as_text }}
+                    </div>
+                    {% endif %}
+                    {{ field }} 
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Search button -->
+            <div class="row" style="margin-top: 20px;">
+                <div class="col">
+                    <input type = "submit" value = "Search" id = "submit" />
+                </div>
+            </div>        
+        </form>
+    
+        <!-- Search results -->
+        <div id="results-container">
+            <div class="row" style="padding-bottom: 20px;">
+                <div class="col-8">
+                    <h1>Summary</h1>
+                </div>
+                <div class="col-4" style="text-align: center;">
+                    <h1>View Details</h1>
+                </div>
+            </div>
+            {% for car in car_list %} 
+            <div class="row">
+                <div class="col-8">
+                    <strong>{{car.makename }}</strong><br/>
+                    <p>{{ car.model }} {{ car.series }} {{ car.series_year }}</p>
+                </div>
+                <!-- Link to car specifications page (through selected car id) -->
+                <div class="col-4">
+                    <a href='/car/{{ car.car_id }}/' class="search-carlink-btn"><i class="fas fa-chevron-right"></i></a>  
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>                                        
+</body>
+</html>

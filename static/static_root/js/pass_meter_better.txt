@@ -1,0 +1,69 @@
+// Set the strength levels
+var strength = {
+    0: "Bad",
+    1: "Weak",
+    2: "Good",
+    3: "Strong",
+    4: "Very Strong"
+}
+
+// Gather all of the data
+var password = document.getElementById('id_password');
+var meter = document.getElementById('password-strength-meter');
+var text = document.getElementById('password-strength-text');
+
+// Used to determine the strength of the password
+function passStrength(passVal){
+    problems = {};
+    numFormat = /\d/;
+    specCharFormat = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    if (passVal[0] !== passVal[0].toUpperCase()){
+        problems.cap = "Your password must start with a capital";
+    }
+    if (numFormat.test(passVal) === false){
+        problems.num = "Your password must contain at least one number";
+    }
+    if (specCharFormat.test(passVal) === false){
+        problems.char = "Your password must contain at least one special character";
+    }
+    if (passVal.length >= 7){
+        problems.len = "Your password must be at least 7 characters long";
+    }
+    return problems;
+}
+
+
+password.addEventListener('input', function() {
+    var val = password.value;    
+
+    // Update the text indicator
+    if (val !== "") {
+        problems = passStrength(val);
+
+        var size = 0, key;
+        for (key in problems) {
+            if (problems.hasOwnProperty(key)) size++;
+        }
+
+        progressBar = size;
+        meter.value = size;
+        text.innerHTML = "Strength: " + strength[size]; 
+
+        if (problems.length > 0){
+            var list = document.createElement("ul");
+            for (problem in problems){
+                var element = document.createElement("li");
+                var elementText = document.createTextNode(problem.value);
+                element.appendChild(elementText);
+                list.appendChild(element);
+            }                        
+            document.getElementById("password-strength-text").appendChild(list);  
+        }
+                  
+    } else {
+        text.innerHTML = "";
+    }
+});
+
+// Styling the meter
+$("meter").css({"width": "100%", "height": "1em"});

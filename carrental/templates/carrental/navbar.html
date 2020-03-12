@@ -1,0 +1,22 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+	<a class="navbar-brand" href="/"><i class="fas fa-car"></i> carrentals</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+		<div class="navbar-nav">
+			<!-- If admin is signed in -->
+			{% if sessionAdmin == True %}
+			<a class="nav-item nav-link" href="/adminanalysis"><i class="fas fa-cogs"></i> Analysis Tools </a>
+			{% endif %}
+			<a class="nav-item nav-link" href="/signup"><i class="fas fa-user-plus"></i> Sign up </a>
+			<!-- If no one is signed in -->
+			{% if sessionEmail == None %}
+			<a class="nav-item nav-link" href="/signin"><i class="fas fa-user"></i> Sign in </a>
+			{% else %}
+			<a class="nav-item nav-link" href="/signin"><i class="fas fa-user"></i> Sign out: {{sessionEmail}} </a>
+			{% endif %}
+		</div>
+	</div>
+</nav>
+

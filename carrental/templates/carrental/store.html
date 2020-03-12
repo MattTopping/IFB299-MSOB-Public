@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>carrentals | {{ instance.city }}</title>
+	<link rel="icon" href="{% static 'img/icon.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Local CSS Files -->
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">	
+	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'jquery-ui/jquery-ui.min.css' %}" rel="stylesheet">
+    <!-- Local JavaScript Files -->    
+    <script src="{% static 'jquery-ui/external/jquery/jquery.js' %}"></script>
+    <script src="{% static 'jquery-ui/jquery-ui.min.js' %}"></script>  
+    <!-- External Libraries -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>    
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">   
+</head>
+<body id="store-bg">
+    {% include 'carrental/navbar.html' %}
+
+    <div class="container store-container">
+        <!-- Back button to index -->
+        <a href="/" class="store-back-btn">Back</a>
+        <!-- Store information -->
+        <h1 style="margin-top: 20px;">{{ instance.city }}, {{ instance.state }}</h1> 
+        <h3 id="store-subheader-container">Phone: <span class="store-subheader">{{ instance.phone }}</span> | 
+            Address: <span class="store-subheader">{{ instance.address }}</span></h3>        
+        <!-- Cars associated with this store -->
+        <div class="store-car-list">
+            {% for car in cars %} 
+            <div class="row">
+                <div class="col">
+                    <strong>{{car.makename }}</strong><br/>
+                    <p>{{ car.model }} {{ car.series }} {{ car.series_year }}</p>
+                </div>
+                <div class="col-4">
+                    <a href='/car/{{ car.car_id }}/' class="search-carlink-btn"><i class="fas fa-chevron-right"></i></a>  
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>   
+</body>
+</html>

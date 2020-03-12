@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>carrentals | Sign Up</title>
+	<link rel="icon" href="{% static 'img/icon.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Local CSS Files -->
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">	
+	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'jquery-ui/jquery-ui.min.css' %}" rel="stylesheet">         
+    <!-- External Libraries -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Local JavaScript Files -->    
+    <script src="{% static 'jquery-ui/external/jquery/jquery.js' %}"></script>
+    <script src="{% static 'jquery-ui/jquery-ui.min.js' %}"></script>         
+    <script src="{% static 'js/datepicker.js' %}"></script>         
+</head>
+<body id="signup-bg">
+    {% include 'carrental/navbar.html' %}
+    
+    <form method = 'POST' action = '' class="user-form"> {% csrf_token %}
+        <h1>{{ title }}</h1> 
+        <!-- If there are any warnings (custom ValidationErrors) -->
+        {% if form.non_field_errors %}
+        <div class="alert alert-warning">
+            {{ form.non_field_errors.as_text }}
+        </div> 
+        {% endif %}
+        <div class="row">        
+        {% for field in form %}            
+            {% if forloop.counter|divisibleby:"2" %}
+            </div>
+            <div class="row">
+            {% endif %}       
+            <!-- Form fields -->                 
+            <div class="col">
+                {{ field.label_tag}} <br/>
+                {% if field.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ field.errors.as_text }}
+                </div>
+                {% endif %}
+                {{ field }}  
+                <!-- If the field is password, add the following beneath -->
+                {% if forloop.counter == 3 %}
+                    <meter max="4" id="pass-strength-meter" style="width: 100%; height: 1em;"></meter>
+                    <p id="pass-strength-text"></p>
+                    <ul id="pass-requirements">
+                        <strong id="pass-list-title">Password requirements: </strong>
+                        <li id="pass-cap">Start with a capital</li>       
+                        <li id="pass-num">Contain at least 1 number</li>                
+                        <li id="pass-len">Be at least 7 characters long</li>                
+                        <li id="pass-char">Contain at least 1 special character</li>                
+                    </ul>
+                {% endif %}
+                <!-- If the field is password2, add the following beneath -->
+                {% if forloop.counter == 4 %}
+                    <p id="pass-match">Passwords: <span id="pass-match-status">Don't Match</span></p>
+                {% endif %}
+            </div>   
+        <!-- Starts a new row every two columns -->
+        {% if forloop.counter == 2 %}
+        </div>
+        <div class="row">
+        {% endif %}
+        {% endfor %}
+        </div>
+        <!-- Submit button -->
+        <div class="row" style="margin-top: 10px;">
+            <div class="col">
+                <input type = "submit" value = "Sign Up" id = "submit" />
+            </div>
+        </div>        
+    </form>
+
+    <!-- Loading in the meter functionality -->
+    <script src="{% static 'js/extra-signup-validation.js' %}"></script>  
+</body>
+</html>
+
+<!-- Loading post styling that is dynamically generated (meter, requirements, matching message) -->
+<link href="{% static 'css/sign-up-post.css' %}" rel="stylesheet">

@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>carrentals | Sign In</title>
+    <link rel="icon" href="{% static 'img/icon.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Local CSS Files -->
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">	
+	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'jquery-ui/jquery-ui.min.css' %}" rel="stylesheet">
+    <!-- Local JavaScript Files -->    
+    <script src="{% static 'jquery-ui/external/jquery/jquery.js' %}"></script>
+    <script src="{% static 'jquery-ui/jquery-ui.min.js' %}"></script>  
+    <!-- External Libraries -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>    
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">   
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
+</head>
+<body id="admin-bg">
+    {% include 'carrental/navbar.html' %}
+    
+    <!-- If a user enters the admin analysis url without logging in -->
+    {% if email == None %}
+    <form method="GET" class="user-form">
+        <h3>Please Login</h3>
+        <p>To use this feature you must use a registered company account. Please sign in to a valid account before returning</p>
+        <input type="button" value="Sign in" class="adminAnalysisButton" onclick="location.href='../signin';"/>
+    </form>
+
+    <!-- If a user enters the admin analysis url without a company email -->
+    {% elif email == "Access Denied" %}
+    <form method="GET" class="user-form">
+        <h3>Access Denied</h3>
+        <p>To use this feature you must use a registered company account. Please sign in to a valid account before returning</p>
+        <input type="button" value="Sign in" class="adminAnalysisButton" onclick="location.href='../signin';"/>
+    </form>
+
+    {% else %}
+    <div> 
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h1 class="display-4">Welcome {{email}}!</h1>
+            <p class="lead">Please select an analysis feature below</p>
+          </div>
+        </div>
+
+        {% if graph == "toolOne" %}
+        <div class="container" style="padding-left: 10%; padding-right: 10%;">
+            <h1 style="text-align: center;">Make Distribution For Company Stock</p>
+
+        {% elif graph == "toolTwo" %}
+        <div class="container">
+            <h1 style="text-align: center;">Stock Distribution Per Australian State</p>
+
+        {% elif graph == "toolThree" %}
+        <div class="container">
+            <h1 style="text-align: center;">Bodytype Distribution For Customers</p>
+        {% else %}
+        <div class="container" style="padding-left: 10%; padding-right: 10%;">
+            <h1 style="text-align: center;">Graph not requested, please make a selection to being.</p>
+        {% endif %}
+
+        {{ generateGraph.as_html }}
+
+        </div>
+    
+        <!-- Graph descriptions -->
+        <div class="container">
+            <div class="row">
+                <div class="card" style="width: 31.5%; margin: 0.75%;">
+                  <div class="card-body">
+                    <h5 class="card-title">Make Distribution For Company Stock</h5>
+                    <p class="card-text">Click the button below to investigate the data further</p>
+                    <form method="GET" class="cardForm">
+                        <input type="submit" value="View Tool One" name="graphRequest" class="submit"/>
+                    </form>
+                  </div>
+                </div>
+                <div class="card" style="width: 31.5%; margin: 0.75%;">
+                  <div class="card-body">
+                    <h5 class="card-title">Stock Distribution Per Australian State</h5>
+                    <p class="card-text">Click the button below to investigate the data further</p>
+                    <form method="GET" class="cardForm">
+                        <input type="submit" value="View Tool Two" name="graphRequest" class="submit"/>
+                    </form>
+                  </div>
+                </div>
+                <div class="card" style="width: 31.5%; margin: 0.75%;">
+                  <div class="card-body">
+                    <h5 class="card-title">Bodytype Distribution For Customers</h5>
+                    <p class="card-text">Click the button below to investigate the data further</p>
+                    <form method="GET" class="cardForm">
+                        <input type="submit" value="View Tool Three" name="graphRequest" class="submit"/>
+                    </form>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</body>
+</html>

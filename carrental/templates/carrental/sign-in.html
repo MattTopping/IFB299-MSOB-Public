@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>carrentals | Sign In</title>
+	<link rel="icon" href="{% static 'img/icon.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Local CSS Files -->
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">	
+	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'jquery-ui/jquery-ui.min.css' %}" rel="stylesheet">
+    <!-- Local JavaScript Files -->    
+    <script src="{% static 'jquery-ui/external/jquery/jquery.js' %}"></script>
+    <script src="{% static 'jquery-ui/jquery-ui.min.js' %}"></script>  
+    <!-- External Libraries -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>    
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">   
+</head>
+<body id="signin-bg">
+    {% include 'carrental/navbar.html' %}
+
+    <!-- If user isn't signed in -->
+    {% if email == None %}
+    <form method = 'POST' action = '' class="user-form"> {% csrf_token %}   
+        <h1>{{ title }}</h1> 
+        <!-- If there are any warnings (custom ValidationErrors) -->
+        {% if form.non_field_errors %}
+        <div class="alert alert-warning">
+            {{ form.non_field_errors.as_text }}
+        </div> 
+        {% endif %}
+        <!-- Form fields -->
+        <div class="row">
+            <div class="col">
+                {{ form.email.label_tag}} <br/>
+                {% if form.email.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form.email.errors.as_text }}
+                </div>
+                {% endif %}
+                {{ form.email }}                
+            </div>  
+        </div>
+        <div class="row">
+            <div class="col">
+                {{ form.password.label_tag}} <br/>
+                {% if form.password.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form.password.errors.as_text }}
+                    </div>
+                {% endif %}
+                {{ form.password }}            
+                <a href="/signup/" id="missing-email">Haven't signed up? Sign up here.</a>
+            </div>              
+        </div>
+        <!-- Submit button -->
+        <div class="row" style="margin-top: 20px;">
+            <div class="col">
+                <input type = "submit" value = "Log In" id = "submit" />
+            </div>
+        </div>        
+    </form>
+    <!-- If the user is logged in -->
+    {% else %}
+    <form method="GET" class="user-form">
+        <h3 style="margin-bottom: 40px;">Are you sure you want to sign out of <em>{{ email }}</em>?</h3>
+        <input type="submit" value="Logout" name="logoutRequest" id="submit"/>
+    </form>
+    {% endif %}
+</body>
+</html>

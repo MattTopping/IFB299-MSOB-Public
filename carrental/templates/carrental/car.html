@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>carrentals | {{ instance.makename }}</title>
+    <link rel="icon" href="{% static 'img/icon.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Local CSS Files -->
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">	
+	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'jquery-ui/jquery-ui.min.css' %}" rel="stylesheet">
+    <!-- Local JavaScript Files -->    
+    <script src="{% static 'jquery-ui/external/jquery/jquery.js' %}"></script>
+    <script src="{% static 'jquery-ui/jquery-ui.min.js' %}"></script>  
+    <script src="{% static 'js/google_maps.js' %}"></script>
+    <!-- External Libraries -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">  
+</head>
+<body id="car-bg">
+    {% include 'carrental/navbar.html' %}
+
+    <div class="container car-container">
+        <!-- Back button to index -->
+        <a href="/" class="car-back-btn">Back</a>
+        
+        <!-- Main content section -->
+        <h1 style="margin-top: 20px;">{{ title }}</h1> 
+        <p class="car-price">${{ instance.price_new }}</p>
+        <div class="row">
+            <div class="col">
+                <strong>Model: </strong><br/>
+                {{ instance.model }}
+            </div>
+            <div class="col">
+                <strong>Series: </strong><br/>
+                {{ instance.series }}
+            </div>
+            <div class="col">
+                <strong>Series Year: </strong><br/>
+                {{ instance.series_year }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <strong>Engine Size: </strong><br/>
+                {{ instance.engine_size }}L
+            </div>
+            <div class="col">
+                <strong>Fuel System: </strong><br/>
+                {{ instance.fuel_system }}
+            </div>
+            <div class="col">
+                <strong>Tank Capacity: </strong><br/>
+                {{ instance.tank_capacity }}L
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <strong>Horse Power: </strong><br/>
+                {{ instance.horse_power }}Kw
+            </div>
+            <div class="col">
+                <strong>Seating: </strong><br/>
+                {{ instance.seating }}
+            </div>
+            <div class="col">
+                <strong>Standard Transmission: </strong><br/>
+                {{ instance.standardtransmission }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <strong>Body Type: </strong><br/>
+                {{ instance.bodytype }}
+            </div>
+            <div class="col">
+                <strong>Drive Type: </strong><br/>
+                {{ instance.drivetype }}
+            </div>
+            <div class="col">
+                <strong>Wheel Base: </strong><br/>
+                {{ instance.wheelbase }}mm
+            </div>
+        </div>
+
+        <!-- List of stores -->
+        <div class="row">
+            <div class="col">
+                <strong>Available Stores:</strong><br/>
+                {% for store in stores %}
+                <a href="/store/{{ store.store_id }}/" class="car-store">
+                    <span>{{ store.city }}, {{ store.state }}</span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>  
+        
+        <!-- Map -->
+        <div id="map-container" class="row">
+            <div class="col">
+                <strong>Map:</strong><br/>
+                <div class="map" id="map-canvas" style="width: 100%; height: 320px;"></div>
+            </div>
+        </div>
+    </div>   
+</body>
+</html>
